@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ahmad Farooq — Personal Operating Manual v2</title>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --surface2: #1a1a1a;
+    --border: #222222;
+    --text: #e8e4dc;
+    --muted: #888880;
+    --crimson: #BF2222;
+    --gold: #A87820;
+    --teal: #168080;
+    --plum: #7A3880;
+    --sage: #3A6840;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: Georgia, serif; font-size: 16px; line-height: 1.8; }
+
+  .sidebar {
+    position: fixed; top: 0; left: 0; width: 260px; height: 100vh;
+    background: var(--surface); border-right: 1px solid var(--border);
+    overflow-y: auto; padding: 32px 0; z-index: 100;
+  }
+  .sidebar-logo { padding: 0 24px 24px; border-bottom: 1px solid var(--border); margin-bottom: 16px; }
+  .sidebar-logo h2 { font-family: Georgia, serif; font-size: 14px; color: var(--crimson); letter-spacing: 0.1em; text-transform: uppercase; font-weight: normal; }
+  .sidebar-logo p { font-size: 11px; color: var(--muted); margin-top: 4px; font-family: sans-serif; }
+  .nav-label { padding: 4px 24px; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); font-family: sans-serif; margin-top: 8px; }
+  .nav-item { display: block; padding: 7px 24px; font-size: 13px; color: #aaa; text-decoration: none; font-family: sans-serif; transition: all 0.15s; border-left: 2px solid transparent; }
+  .nav-item:hover, .nav-item.active { color: var(--text); background: var(--surface2); border-left-color: var(--crimson); }
+
+  .main { margin-left: 260px; min-height: 100vh; }
+
+  .hero {
+    background: linear-gradient(135deg, #0f0f0f 0%, #1a0a0a 50%, #0a0f0f 100%);
+    border-bottom: 1px solid var(--border); padding: 80px 64px; position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; top: -50%; right: -10%; width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(191,34,34,0.06) 0%, transparent 70%); pointer-events: none;
+  }
+  .hero-tag { display: inline-block; font-family: sans-serif; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--crimson); border: 1px solid rgba(191,34,34,0.3); padding: 4px 12px; border-radius: 2px; margin-bottom: 24px; }
+  .hero h1 { font-size: 52px; font-weight: normal; line-height: 1.1; color: var(--text); max-width: 700px; margin-bottom: 16px; }
+  .hero h1 span { color: var(--crimson); }
+  .hero-sub { font-family: sans-serif; font-size: 14px; color: var(--muted); margin-bottom: 40px; }
+  .hero-quote { max-width: 600px; border-left: 2px solid var(--crimson); padding: 16px 24px; background: rgba(191,34,34,0.05); font-style: italic; font-size: 15px; color: #ccc; line-height: 1.6; }
+  .hero-stats { display: flex; gap: 48px; margin-top: 48px; flex-wrap: wrap; }
+  .stat-value { font-size: 28px; color: var(--text); font-weight: normal; }
+  .stat-value.red { color: var(--crimson); }
+  .stat-value.gold { color: var(--gold); }
+  .stat-value.teal { color: var(--teal); }
+  .stat-value.sage { color: var(--sage); }
+  .stat-label { font-family: sans-serif; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 2px; }
+
+  .content { padding: 64px; max-width: 880px; }
+  .section { margin-bottom: 80px; scroll-margin-top: 32px; }
+  .section-header { display: flex; align-items: center; gap: 16px; margin-bottom: 32px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+  .section-num { font-family: sans-serif; font-size: 11px; color: var(--crimson); letter-spacing: 0.15em; text-transform: uppercase; min-width: 70px; }
+  .section-title { font-size: 28px; font-weight: normal; color: var(--text); }
+
+  h3 { font-size: 18px; font-weight: normal; color: var(--gold); margin: 32px 0 12px; font-family: sans-serif; letter-spacing: 0.05em; }
+  h4 { font-size: 13px; font-weight: normal; color: var(--teal); margin: 24px 0 8px; font-family: sans-serif; letter-spacing: 0.1em; text-transform: uppercase; }
+  p { color: #ccc; margin-bottom: 16px; font-size: 15px; line-height: 1.85; }
+  strong { color: var(--text); font-weight: normal; }
+
+  .callout { border-left: 3px solid var(--crimson); background: rgba(191,34,34,0.06); padding: 20px 24px; margin: 24px 0; border-radius: 0 4px 4px 0; }
+  .callout.gold { border-left-color: var(--gold); background: rgba(168,120,32,0.06); }
+  .callout.teal { border-left-color: var(--teal); background: rgba(22,128,128,0.06); }
+  .callout.sage { border-left-color: var(--sage); background: rgba(58,104,64,0.06); }
+  .callout.plum { border-left-color: var(--plum); background: rgba(122,56,128,0.06); }
+  .callout-label { font-family: sans-serif; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--crimson); margin-bottom: 8px; }
+  .callout.gold .callout-label { color: var(--gold); }
+  .callout.teal .callout-label { color: var(--teal); }
+  .callout.sage .callout-label { color: var(--sage); }
+  .callout.plum .callout-label { color: var(--plum); }
+  .callout p { margin: 0; font-size: 14px; }
+
+  .table-wrap { overflow-x: auto; margin: 20px 0; }
+  table { width: 100%; border-collapse: collapse; font-family: sans-serif; font-size: 13px; }
+  thead tr { background: var(--surface2); border-bottom: 1px solid var(--border); }
+  th { padding: 12px 16px; text-align: left; color: var(--muted); font-weight: normal; letter-spacing: 0.08em; text-transform: uppercase; font-size: 11px; }
+  td { padding: 11px 16px; border-bottom: 1px solid var(--border); color: #bbb; vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(255,255,255,0.015); }
+  td:first-child { color: var(--text); }
+
+  .pattern-card { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 24px; margin-bottom: 16px; position: relative; overflow: hidden; }
+  .pattern-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; }
+  .pattern-card.p1::before { background: var(--crimson); }
+  .pattern-card.p2::before { background: var(--gold); }
+  .pattern-card.p3::before { background: var(--plum); }
+  .pattern-num { font-family: sans-serif; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 8px; }
+  .p1 .pattern-num { color: var(--crimson); }
+  .p2 .pattern-num { color: var(--gold); }
+  .p3 .pattern-num { color: var(--plum); }
+  .pattern-title { font-size: 16px; color: var(--text); margin-bottom: 12px; font-family: sans-serif; }
+  .pattern-card p { font-size: 14px; margin: 0; }
+
+  .schedule-row { display: flex; gap: 0; border-bottom: 1px solid var(--border); align-items: stretch; }
+  .schedule-time { min-width: 90px; padding: 9px 14px; font-family: sans-serif; font-size: 12px; color: var(--muted); border-right: 1px solid var(--border); display: flex; align-items: center; }
+  .schedule-activity { padding: 9px 16px; font-size: 13px; color: #bbb; flex: 1; display: flex; align-items: center; font-family: sans-serif; }
+  .schedule-activity.deep { color: var(--teal); font-weight: bold; }
+  .schedule-activity.job { color: #666; font-style: italic; }
+  .schedule-activity.prayer { color: var(--gold); }
+  .schedule-activity.rest { color: #444; }
+  .schedule-activity.health { color: var(--sage); }
+
+  .code-block { background: var(--surface2); border: 1px solid var(--border); border-radius: 4px; padding: 20px 24px; margin: 16px 0; font-family: monospace; font-size: 13px; color: var(--teal); line-height: 1.7; white-space: pre-wrap; }
+
+  .phase { display: flex; gap: 24px; margin-bottom: 32px; position: relative; }
+  .phase::before { content: ''; position: absolute; left: 20px; top: 40px; width: 1px; height: calc(100% + 32px); background: var(--border); }
+  .phase:last-child::before { display: none; }
+  .phase-dot { width: 40px; height: 40px; min-width: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: sans-serif; font-size: 13px; font-weight: bold; position: relative; z-index: 1; }
+  .ph1 { background: rgba(191,34,34,0.2); color: var(--crimson); border: 1px solid var(--crimson); }
+  .ph2 { background: rgba(168,120,32,0.2); color: var(--gold); border: 1px solid var(--gold); }
+  .ph3 { background: rgba(22,128,128,0.2); color: var(--teal); border: 1px solid var(--teal); }
+  .ph4 { background: rgba(58,104,64,0.2); color: var(--sage); border: 1px solid var(--sage); }
+  .phase-body { flex: 1; padding-top: 8px; }
+  .phase-date { font-family: sans-serif; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; }
+  .phase-title { font-size: 18px; color: var(--text); margin-bottom: 10px; }
+  .phase-body p { font-size: 14px; }
+
+  .ted-talk {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 40px;
+    margin: 24px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .ted-talk::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--crimson), var(--gold), var(--teal));
+  }
+  .ted-talk-label { font-family: sans-serif; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--crimson); margin-bottom: 24px; }
+  .ted-talk p { font-size: 15px; line-height: 1.9; margin-bottom: 20px; color: #d0ccc4; }
+  .ted-talk p:last-child { margin-bottom: 0; }
+  .ted-talk p strong { color: var(--text); }
+
+  .tracking-section { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; margin: 16px 0; overflow: hidden; }
+  .tracking-header { padding: 14px 20px; background: var(--surface2); border-bottom: 1px solid var(--border); font-family: sans-serif; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); }
+  .tracking-section table { margin: 0; }
+  .tracking-section td, .tracking-section th { padding: 10px 20px; }
+
+  .scenario-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 24px 0; }
+  .scenario-card { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 24px; }
+  .scenario-card.a { border-top: 2px solid var(--crimson); }
+  .scenario-card.b { border-top: 2px solid var(--teal); }
+  .scenario-label { font-family: sans-serif; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 8px; }
+  .scenario-card.a .scenario-label { color: var(--crimson); }
+  .scenario-card.b .scenario-label { color: var(--teal); }
+  .scenario-title { font-size: 16px; color: var(--text); margin-bottom: 12px; font-family: sans-serif; }
+  .scenario-card p { font-size: 13px; margin: 0; color: #aaa; }
+
+  .summary-card { background: var(--surface); border: 1px solid var(--crimson); border-radius: 4px; padding: 40px; margin: 24px 0; }
+  .summary-card h2 { font-size: 20px; font-weight: normal; color: var(--crimson); margin-bottom: 32px; font-family: sans-serif; letter-spacing: 0.05em; }
+  .summary-section { margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid var(--border); }
+  .summary-section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .summary-label { font-family: sans-serif; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .summary-section p { font-size: 14px; margin: 0; }
+  .big-question { text-align: center; padding: 32px; background: rgba(191,34,34,0.05); border: 1px solid rgba(191,34,34,0.2); border-radius: 4px; margin-top: 32px; }
+  .big-question p { font-size: 12px; color: var(--muted); font-family: sans-serif; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+  .big-question h3 { font-size: 22px; color: var(--text); font-family: Georgia, serif; font-weight: normal; }
+
+  .footer { padding: 48px 64px; border-top: 1px solid var(--border); font-family: sans-serif; font-size: 12px; color: var(--muted); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+
+  @media (max-width: 900px) {
+    .sidebar { display: none; }
+    .main { margin-left: 0; }
+    .hero, .content, .footer { padding: 32px 20px; }
+    .hero h1 { font-size: 32px; }
+    .hero-stats { gap: 20px; }
+    .scenario-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <h2>Ahmad Farooq</h2>
+    <p>Personal Operating Manual v2 — March 2026</p>
+  </div>
+  <div class="nav-label">Analysis</div>
+  <a href="#analysis" class="nav-item">Brutal Honest Analysis</a>
+  <a href="#patterns" class="nav-item">The Three Patterns</a>
+  <div class="nav-label">The Manual</div>
+  <a href="#financial" class="nav-item">01 — Financial Roadmap</a>
+  <a href="#consulting" class="nav-item">02 — Consulting Strategy</a>
+  <a href="#linkedin" class="nav-item">03 — LinkedIn Rebuild</a>
+  <a href="#lume" class="nav-item">04 — Lume Strategy</a>
+  <a href="#daily" class="nav-item">05 — Daily Schedule</a>
+  <a href="#tracking" class="nav-item">06 — Daily Tracking</a>
+  <a href="#alevels" class="nav-item">07 — A Levels and University</a>
+  <a href="#mental" class="nav-item">08 — Mental and Emotional</a>
+  <a href="#vision" class="nav-item">09 — Long Term Vision</a>
+  <div class="nav-label">Summary</div>
+  <a href="#summary" class="nav-item">One Page Summary</a>
+</nav>
+
+<div class="main">
+
+  <div class="hero">
+    <div class="hero-tag">Confidential — For Ahmad Farooq Only — v2</div>
+    <h1>Building Brands<br>That <span>Compound.</span></h1>
+    <p class="hero-sub">Personal Operating Manual — Built from Full Life Audit — March 2026</p>
+    <div class="hero-quote">
+      "I would want to start with consulting and LinkedIn rebuild. If you see the others, they will follow when I have the money. These two can fuel everything."
+      <br><span style="font-size:12px; color: var(--muted); font-style:normal; display:block; margin-top:8px;">Your own words. This manual is built around that truth.</span>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-value red">PKR 60K</div><div class="stat-label">Monthly Income</div></div>
+      <div class="stat"><div class="stat-value red">PKR 0</div><div class="stat-label">Monthly Savings</div></div>
+      <div class="stat"><div class="stat-value gold">230K</div><div class="stat-label">LinkedIn Impressions</div></div>
+      <div class="stat"><div class="stat-value teal">0</div><div class="stat-label">Active Clients</div></div>
+      <div class="stat"><div class="stat-value sage">PKR 20M</div><div class="stat-label">5-Year Monthly Target</div></div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ANALYSIS -->
+    <div class="section" id="analysis">
+      <div class="section-header">
+        <span class="section-num">Part 01</span>
+        <h2 class="section-title">Brutal Honest Analysis</h2>
+      </div>
+
+      <h3>The Real Picture As Of March 2026</h3>
+      <p>You are living in Lahore with family, earning PKR 60,000/month remote, saving zero, with PKR 57,100 to your name — PKR 56,000 of which arrived today. You have a job you hate, no consulting clients, a brand new LinkedIn with 130 followers, a SaaS MVP with zero users, and a 5-year vision worth PKR 20 million/month.</p>
+      <p>The gap between where you are and where you want to be is not a skills gap. You have consulted for Coin Bureau. You have built a $300K pipeline for an EdTech founder. You have grown a LinkedIn to 10,000 followers from scratch. You have landed a $400/month retainer through inbound. You know how to do this. The gap is a systems gap, a consistency gap, and an unhealed psychological gap from an accident that derailed your peak.</p>
+
+      <h3>What Is Working</h3>
+      <p>Your content instinct is real. Two posts at 110K and 103K impressions on a 130-follower account is not luck. Your product thinking is sharp — the Lume document is more coherent than most funded startup decks. Your decision to take a remote job was correct — you doubled your effective take-home by removing PKR 20,000 in commute costs.</p>
+
+      <h3>What Is Not Working</h3>
+      <p>You are spending zero structured time on the two things that will change your life. Your evenings go to doom scrolling. You have sent 7 cold outreach messages in 3 months. You are undercharging by a factor of 3. You have a working Lume prototype nobody has seen. You are running 7 major goals with no prioritisation.</p>
+
+      <div class="callout">
+        <div class="callout-label">Biggest Single Gap</div>
+        <p>Distribution without conversion. 230,000 impressions, 0 inbound inquiries, 0 clients. The content is working. Everything after the content is broken.</p>
+      </div>
+
+      <h3>What The Data Says You Are Actually Prioritising</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Activity</th><th>Daily Hours</th><th>What You Say You Want</th></tr></thead>
+          <tbody>
+            <tr><td>Job work</td><td>9 hours</td><td>To leave the job</td></tr>
+            <tr><td>Sleep</td><td>4 to 9+ hours (inconsistent)</td><td>Better energy and focus</td></tr>
+            <tr><td>Doom scrolling and gaming</td><td>2 to 3 hours</td><td>To build a business</td></tr>
+            <tr><td>Consulting business</td><td>0 minutes</td><td>PKR 20M/month</td></tr>
+            <tr><td>LinkedIn engagement</td><td>0 minutes</td><td>Inbound client pipeline</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- PATTERNS -->
+    <div class="section" id="patterns">
+      <div class="section-header">
+        <span class="section-num">Part 02</span>
+        <h2 class="section-title">The Three Patterns</h2>
+      </div>
+
+      <div class="pattern-card p1">
+        <div class="pattern-num">Pattern 01</div>
+        <div class="pattern-title">You Build Brilliantly Then Abandon At The Distribution Stage</div>
+        <p>Built 10K LinkedIn — stopped at inbound. Got hacked — rebuilt slowly. Built consulting website — sent 7 messages. Built Lume MVP — nobody has seen it. Every time you complete the hard creative work you stop at the moment it requires consistent showing up. This is not laziness. It is a pattern of building in private and avoiding the vulnerability of public rejection.</p>
+      </div>
+      <div class="pattern-card p2">
+        <div class="pattern-num">Pattern 02</div>
+        <div class="pattern-title">External Events Become Permanent Excuses</div>
+        <p>The accident was real. The mental health collapse during AS Levels was real — you knew the material, you completed A1 for all four subjects, your performance did not reflect your preparation. The LinkedIn hack was real. But every time a real external event causes a real setback, you walk away entirely rather than adapt and rebuild. The events are real. The walking away is a choice.</p>
+      </div>
+      <div class="pattern-card p3">
+        <div class="pattern-num">Pattern 03</div>
+        <div class="pattern-title">Optimising For Parental Approval Over Your Own Vision</div>
+        <p>Their opinion affects your energy and decisions. You keep a job you hate partly to avoid tantrums. You are spending your most precious resource — time in your mid-20s with no rent, no dependents, remote work — partially optimising for keeping the peace. The fastest path to ending this is not a conversation. It is closing your first client and showing them the transfer.</p>
+      </div>
+    </div>
+
+    <!-- FINANCIAL -->
+    <div class="section" id="financial">
+      <div class="section-header">
+        <span class="section-num">Section 01</span>
+        <h2 class="section-title">Financial Roadmap</h2>
+      </div>
+
+      <h3>Immediate Budget — Lock This Today</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Category</th><th>Monthly PKR</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td>Fixed expenses</td><td>PKR 13,000</td><td>Food, mobile, Claude</td></tr>
+            <tr><td>Household contribution</td><td>PKR 8,000</td><td>Give to mother directly — stops household fund dipping</td></tr>
+            <tr><td>Business tools</td><td>PKR 3,000</td><td>Any new tool needs</td></tr>
+            <tr><td style="color:var(--sage)">Emergency buffer savings</td><td style="color:var(--sage)">PKR 15,000</td><td style="color:var(--sage)">Transfer on salary day before anything else. Meezan Bank.</td></tr>
+            <tr><td>Personal discretionary</td><td>PKR 10,000</td><td>Your money. Spend without guilt.</td></tr>
+            <tr><td>Rollover cushion</td><td>PKR 11,000</td><td>Do not touch unless emergency</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>6-Month Revenue Targets</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Month</th><th>Consulting Revenue</th><th>Savings Balance</th><th>Key Action</th></tr></thead>
+          <tbody>
+            <tr><td>April 2026</td><td>PKR 0</td><td>PKR 15,000</td><td>Budget locked, savings started</td></tr>
+            <tr><td>May 2026</td><td style="color:var(--sage)">PKR 166,000+ (1 client at $600)</td><td>PKR 50,000</td><td>First consulting client closed</td></tr>
+            <tr><td>June 2026</td><td style="color:var(--sage)">PKR 332,000+ (2 clients)</td><td>PKR 120,000</td><td>Second client, job becoming optional</td></tr>
+            <tr><td>July 2026</td><td style="color:var(--sage)">PKR 498,000+ (3 clients)</td><td>PKR 220,000</td><td>Consider leaving job</td></tr>
+            <tr><td>Sept 2026</td><td style="color:var(--gold)">PKR 600,000+</td><td>PKR 380,000</td><td>A Level registration fees covered</td></tr>
+            <tr><td>Dec 2026</td><td style="color:var(--gold)">PKR 750,000+</td><td>PKR 650,000</td><td>University research and IELTS funded</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout gold">
+        <div class="callout-label">The Unlock Number</div>
+        <p>One consulting client at $600/month = PKR 166,000. That is 2.7x your current salary from one client. One client changes the psychology, the finances, and the proof.</p>
+      </div>
+
+      <h3>Car and House — Two Scenarios</h3>
+      <p>You want a PKR 10 million car and a PKR 40 to 50 million house. Total: PKR 55 million minimum. You are not saving your way there. You are building your way there through business revenue and returns.</p>
+
+      <div class="scenario-grid">
+        <div class="scenario-card a">
+          <div class="scenario-label">Scenario A — Aggressive</div>
+          <div class="scenario-title">Car 2029, House 2030</div>
+          <p>Consulting at 5+ clients generating PKR 1,200,000/month by 2027. Lume at 200+ users generating PKR 1,000,000/month by 2028. Combined annual revenue PKR 27,000,000+. Net business returns over 4 years reach PKR 40 to 60 million if both scale as planned.</p>
+        </div>
+        <div class="scenario-card b">
+          <div class="scenario-label">Scenario B — Realistic</div>
+          <div class="scenario-title">Car 2030, House 2032</div>
+          <p>Consulting at PKR 800,000/month by 2028. Lume at 100 users generating PKR 500,000/month by 2028. Combined PKR 1,300,000/month. Save and invest for 2 additional years. Less pressure means better decisions on every business move between now and then.</p>
+        </div>
+      </div>
+      <p style="font-size:13px; color: var(--muted);">Target Scenario A. Plan for Scenario B. The difference is not effort — it is how fast Lume scales.</p>
+    </div>
+
+    <!-- CONSULTING -->
+    <div class="section" id="consulting">
+      <div class="section-header">
+        <span class="section-num">Section 02</span>
+        <h2 class="section-title">Consulting Business Strategy</h2>
+      </div>
+
+      <h3>New Pricing — Effective Immediately</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Package</th><th>Price</th><th>PKR Equivalent</th><th>Deliverables</th></tr></thead>
+          <tbody>
+            <tr><td>Starter</td><td style="color:var(--gold)">$600/month</td><td>PKR 166,000</td><td>12 posts/month, profile optimisation, weekly analytics report, post engagement on client's behalf</td></tr>
+            <tr><td>Growth</td><td style="color:var(--gold)">$900/month</td><td>PKR 249,000</td><td>20 posts/month, profile optimisation, outreach 20 msgs/week, post engagement, weekly strategy call</td></tr>
+            <tr><td>Authority</td><td style="color:var(--gold)">$1,200/month</td><td>PKR 332,000</td><td>25 posts/month, full management, outreach 30 msgs/week, post engagement, strategy call, content repurposing</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Your previous rate of $400/month for 15 hours/week was $6.50/hour. Never go below $600 again. Pitch Growth at $900. Close at $600 if needed. Both are correct outcomes.</p>
+
+      <h3>The Follower Count Objection — Handle It Directly</h3>
+      <p>You have been rejected because of your 130 followers. This is a real objection that has cost you real clients. Here is the script you use every single time it comes up:</p>
+      <div class="code-block">"You are right that my current account is new. My previous LinkedIn with
+10,000 followers was hacked three months ago and I rebuilt from zero.
+
+I grew that account from scratch once and the work I did for clients during
+that time speaks for itself. Coin Bureau saw 10x growth in 6 months. An
+EdTech founder went from 300 to 12,000 followers in 90 days with a $300K
+pipeline attributed to LinkedIn.
+
+My follower count is 130. My client results are not.
+
+You are hiring for what I can do for your account, not what my personal
+count is right now."
+
+Then stop talking. Let them respond.</div>
+      <p>This script is completely honest. You are not hiding the hack. You are contextualising it. Practice it until it comes out naturally.</p>
+
+      <h3>Outreach System — Non-Negotiable</h3>
+      <div class="callout">
+        <div class="callout-label">The New Standard</div>
+        <p>10 outreach messages per day. 5 days per week. 200 messages per month. At 5% close rate: 10 conversations. At 20% conversion: 2 new clients per month. You cannot diagnose your pitch on 7 messages in 3 months. That is not data.</p>
+      </div>
+
+      <h4>The Warming System — Before Every DM</h4>
+      <p>Spend 3 days commenting meaningfully on a prospect's last 5 posts before sending a message. Warm outreach gets 3 to 5x higher reply rates. Your 7 messages got 0 replies because they were fully cold.</p>
+
+      <h4>The Outreach Message Framework</h4>
+      <div class="code-block">Hey [Name] — saw your post on [specific topic]. Strong perspective.
+
+I noticed your engagement rate is lower than your content quality deserves
+— usually a distribution or hook problem.
+
+I help founders fix this. Grew Coin Bureau's LinkedIn 10x in 6 months.
+
+Open to a 20-minute breakdown of what I would change on your profile?</div>
+
+      <h3>30-Day First Client Sprint</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Week</th><th>Action</th><th>Target</th></tr></thead>
+          <tbody>
+            <tr><td>Week 1</td><td>Identify 50 target prospects. Comment on their content daily.</td><td>50 prospects warmed</td></tr>
+            <tr><td>Week 2</td><td>Send 10 DMs/day to warmed prospects. Offer free 20-minute LinkedIn audit call.</td><td>50 DMs sent</td></tr>
+            <tr><td>Week 3</td><td>Run audit calls. Present 3-point improvement plan. Pitch Growth at $900.</td><td>3 to 5 calls booked</td></tr>
+            <tr><td>Week 4</td><td>Follow up every non-reply. Close first client. Use follower count script if needed.</td><td>1 client closed</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- LINKEDIN -->
+    <div class="section" id="linkedin">
+      <div class="section-header">
+        <span class="section-num">Section 03</span>
+        <h2 class="section-title">LinkedIn Rebuild Strategy</h2>
+      </div>
+
+      <div class="callout teal">
+        <div class="callout-label">The Core Fix</div>
+        <p>Currently: 100% posting, 0% engaging. Target: 40% posting, 60% engaging. LinkedIn growth in 2026 is built on comments, not posts alone.</p>
+      </div>
+
+      <h3>Weekly Content Mix</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Day</th><th>Content Type</th><th>Purpose</th></tr></thead>
+          <tbody>
+            <tr><td>Monday</td><td>Insight post — LinkedIn strategy or brand building lesson</td><td>Demonstrates expertise</td></tr>
+            <tr><td>Tuesday</td><td>Case study breakdown — one result from past work</td><td>Builds proof</td></tr>
+            <tr><td>Wednesday</td><td>Personal story — connect struggle to lesson</td><td>Builds trust</td></tr>
+            <tr><td>Thursday</td><td>Contrarian take — challenge a common belief</td><td>Drives engagement</td></tr>
+            <tr><td>Friday</td><td>Build in public — Lume update, consulting progress, real numbers</td><td>Builds dual audience</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>90-Day Targets</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Metric</th><th>Now</th><th>Day 90</th></tr></thead>
+          <tbody>
+            <tr><td>Followers</td><td>130</td><td style="color:var(--sage)">1,000+</td></tr>
+            <tr><td>Daily comments on others</td><td>0</td><td style="color:var(--sage)">10 per day</td></tr>
+            <tr><td>Posts per week</td><td>0 to 5 inconsistent</td><td style="color:var(--sage)">5 every week without exception</td></tr>
+            <tr><td>Inbound client DMs</td><td>0/month</td><td style="color:var(--sage)">3 to 5/month</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- LUME -->
+    <div class="section" id="lume">
+      <div class="section-header">
+        <span class="section-num">Section 04</span>
+        <h2 class="section-title">Lume Strategy</h2>
+      </div>
+
+      <div class="callout gold">
+        <div class="callout-label">Priority Rule</div>
+        <p>Lume is your long game. Consulting is your short game. Lume gets 1 focused hour per day. Consulting gets your full strategic energy. You need cash before you need users.</p>
+      </div>
+
+      <h3>Revenue Milestones</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Users</th><th>MRR</th><th>What It Means</th></tr></thead>
+          <tbody>
+            <tr><td>5 users</td><td>$90/month</td><td>Covers all tool costs</td></tr>
+            <tr><td>12 users</td><td>$216/month</td><td>Proof of concept validated</td></tr>
+            <tr><td>50 users</td><td>$900/month</td><td>Real secondary income</td></tr>
+            <tr><td>100 users</td><td>$1,800/month</td><td>$21,600/year — real business</td></tr>
+            <tr><td>200 users</td><td>$3,600/month</td><td>Contributing to car and house fund</td></tr>
+            <tr><td>500 users</td><td>$9,000/month</td><td>Approaching Scenario A timeline</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- DAILY SCHEDULE -->
+    <div class="section" id="daily">
+      <div class="section-header">
+        <span class="section-num">Section 05</span>
+        <h2 class="section-title">Daily Operating System</h2>
+      </div>
+
+      <h3>During Ramadan</h3>
+      <div class="callout" style="margin-bottom:16px;">
+        <div class="callout-label">Ramadan Note</div>
+        <p>Drink 500ml water before Sehri ends at 4:00 AM. After Fajr at 5:00 AM, no water or food until Maghrib at Iftar time. Plan all hydration before 4:00 AM.</p>
+      </div>
+      <div style="border: 1px solid var(--border); border-radius:4px; overflow:hidden; margin-bottom:24px;">
+        <div class="schedule-row"><div class="schedule-time">3:30 AM</div><div class="schedule-activity health">Wake for Sehri — eat protein, drink 500ml water immediately</div></div>
+        <div class="schedule-row"><div class="schedule-time">4:00 AM</div><div class="schedule-activity rest">Sehri ends — no eating or drinking until Maghrib</div></div>
+        <div class="schedule-row"><div class="schedule-time">5:00 AM</div><div class="schedule-activity prayer">Fajr prayer</div></div>
+        <div class="schedule-row"><div class="schedule-time">5:20 AM</div><div class="schedule-activity deep">Deep Work Block 1 — outreach or Lume. Sharpest window of the day.</div></div>
+        <div class="schedule-row"><div class="schedule-time">6:30 AM</div><div class="schedule-activity rest">Sleep</div></div>
+        <div class="schedule-row"><div class="schedule-time">9:00 AM</div><div class="schedule-activity">Wake</div></div>
+        <div class="schedule-row"><div class="schedule-time">9:30 AM</div><div class="schedule-activity job">Job work begins</div></div>
+        <div class="schedule-row"><div class="schedule-time">1:00 PM</div><div class="schedule-activity prayer">Zuhr prayer — 10 minutes</div></div>
+        <div class="schedule-row"><div class="schedule-time">1:10 PM</div><div class="schedule-activity job">Job work resumes</div></div>
+        <div class="schedule-row"><div class="schedule-time">4:00 PM</div><div class="schedule-activity prayer">Asr prayer — 10 minutes</div></div>
+        <div class="schedule-row"><div class="schedule-time">4:10 PM</div><div class="schedule-activity job">Job work resumes</div></div>
+        <div class="schedule-row"><div class="schedule-time">6:00 PM</div><div class="schedule-activity prayer">Iftar — Maghrib prayer immediately after</div></div>
+        <div class="schedule-row"><div class="schedule-time">6:30 PM</div><div class="schedule-activity deep">Deep Work Block 2 — LinkedIn commenting, outreach, content writing</div></div>
+        <div class="schedule-row"><div class="schedule-time">8:00 PM</div><div class="schedule-activity prayer">Isha prayer</div></div>
+        <div class="schedule-row"><div class="schedule-time">8:20 PM</div><div class="schedule-activity deep">Deep Work Block 3 — Lume build or content creation</div></div>
+        <div class="schedule-row"><div class="schedule-time">9:30 PM</div><div class="schedule-activity prayer">Taraweeh</div></div>
+        <div class="schedule-row"><div class="schedule-time">10:45 PM</div><div class="schedule-activity">Wind down — journal 10 minutes, no phone</div></div>
+        <div class="schedule-row"><div class="schedule-time">11:30 PM</div><div class="schedule-activity rest">Sleep</div></div>
+      </div>
+
+      <h3>After Ramadan</h3>
+      <div style="border: 1px solid var(--border); border-radius:4px; overflow:hidden; margin-bottom:24px;">
+        <div class="schedule-row"><div class="schedule-time">6:45 AM</div><div class="schedule-activity">Wake — no phone for first 30 minutes</div></div>
+        <div class="schedule-row"><div class="schedule-time">7:00 AM</div><div class="schedule-activity health">500ml water immediately</div></div>
+        <div class="schedule-row"><div class="schedule-time">7:15 AM</div><div class="schedule-activity prayer">Fajr prayer</div></div>
+        <div class="schedule-row"><div class="schedule-time">7:30 AM</div><div class="schedule-activity deep">Deep Work Block 1 — 90 minutes consulting or Lume before job</div></div>
+        <div class="schedule-row"><div class="schedule-time">9:00 AM</div><div class="schedule-activity job">Job begins</div></div>
+        <div class="schedule-row"><div class="schedule-time">1:15 PM</div><div class="schedule-activity prayer">Zuhr prayer — 10 minutes</div></div>
+        <div class="schedule-row"><div class="schedule-time">1:25 PM</div><div class="schedule-activity job">Job resumes</div></div>
+        <div class="schedule-row"><div class="schedule-time">4:30 PM</div><div class="schedule-activity prayer">Asr prayer — 10 minutes</div></div>
+        <div class="schedule-row"><div class="schedule-time">4:40 PM</div><div class="schedule-activity job">Job resumes</div></div>
+        <div class="schedule-row"><div class="schedule-time">6:00 PM</div><div class="schedule-activity job">Job ends</div></div>
+        <div class="schedule-row"><div class="schedule-time">6:15 PM</div><div class="schedule-activity prayer">Maghrib prayer</div></div>
+        <div class="schedule-row"><div class="schedule-time">6:30 PM</div><div class="schedule-activity health">Physical movement — 30 to 45 minutes. Walk, sport, table tennis. Non-negotiable.</div></div>
+        <div class="schedule-row"><div class="schedule-time">7:15 PM</div><div class="schedule-activity">Dinner</div></div>
+        <div class="schedule-row"><div class="schedule-time">7:45 PM</div><div class="schedule-activity deep">Deep Work Block 2 — LinkedIn engagement and outreach — 60 minutes</div></div>
+        <div class="schedule-row"><div class="schedule-time">8:45 PM</div><div class="schedule-activity prayer">Isha prayer</div></div>
+        <div class="schedule-row"><div class="schedule-time">9:00 PM</div><div class="schedule-activity deep">Deep Work Block 3 — Lume build or content — 60 minutes</div></div>
+        <div class="schedule-row"><div class="schedule-time">10:00 PM</div><div class="schedule-activity">Wind down — reading, journal 10 minutes</div></div>
+        <div class="schedule-row"><div class="schedule-time">10:30 PM</div><div class="schedule-activity rest">Phone off. No exceptions.</div></div>
+        <div class="schedule-row"><div class="schedule-time">11:00 PM</div><div class="schedule-activity rest">Sleep</div></div>
+      </div>
+    </div>
+
+    <!-- TRACKING -->
+    <div class="section" id="tracking">
+      <div class="section-header">
+        <span class="section-num">Section 06</span>
+        <h2 class="section-title">Daily Tracking System</h2>
+      </div>
+
+      <div class="callout teal">
+        <div class="callout-label">The System</div>
+        <p>Carry a small notebook during the day for raw capture. Every night before sleep, log the day into Notion on your phone or PC. 10 minutes maximum. This builds the data for weekly reviews and eventually feeds directly into Lume's own content and time tracker modules.</p>
+      </div>
+
+      <h3>Notion Setup — Three Pages Only</h3>
+      <p>Page 1: Daily Log — one entry per day, same template repeated nightly. Page 2: Outreach Tracker — one row per prospect with full pipeline status. Page 3: Weekly Scorecard — filled from daily logs every Sunday.</p>
+
+      <div class="tracking-section">
+        <div class="tracking-header">Consulting and Outreach — Track Daily</div>
+        <table>
+          <thead><tr><th>What To Track</th><th>Where</th><th>When</th></tr></thead>
+          <tbody>
+            <tr><td>Number of outreach DMs sent today</td><td>Notebook tally then Notion</td><td>Daily</td></tr>
+            <tr><td>Names of people warmed (commented on)</td><td>Notebook</td><td>Daily</td></tr>
+            <tr><td>Replies received and what they said</td><td>Notion outreach tracker</td><td>Daily</td></tr>
+            <tr><td>Audit calls booked</td><td>Notion outreach tracker</td><td>As they happen</td></tr>
+            <tr><td>Proposals sent</td><td>Notion outreach tracker</td><td>As they happen</td></tr>
+            <tr><td>Clients closed and at what price</td><td>Notion outreach tracker</td><td>As they happen</td></tr>
+            <tr><td>Follow-ups due tomorrow</td><td>Notebook</td><td>Every night</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tracking-section">
+        <div class="tracking-header">LinkedIn Content — Track Daily</div>
+        <table>
+          <thead><tr><th>What To Track</th><th>Where</th><th>When</th></tr></thead>
+          <tbody>
+            <tr><td>Post published today — topic and format</td><td>Notion daily log</td><td>Daily</td></tr>
+            <tr><td>Number of comments left on others' posts</td><td>Notebook tally then Notion</td><td>Daily</td></tr>
+            <tr><td>Impressions on yesterday's post</td><td>Notion daily log</td><td>Daily</td></tr>
+            <tr><td>New followers today</td><td>Notion daily log</td><td>Daily</td></tr>
+            <tr><td>Any inbound DMs from content</td><td>Notion daily log</td><td>Daily</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tracking-section">
+        <div class="tracking-header">Lume — Track Daily</div>
+        <table>
+          <thead><tr><th>What To Track</th><th>Where</th><th>When</th></tr></thead>
+          <tbody>
+            <tr><td>Hours spent on Lume today</td><td>Notebook then Notion</td><td>Daily</td></tr>
+            <tr><td>Feature worked on or completed</td><td>Notion daily log</td><td>Daily</td></tr>
+            <tr><td>Bugs or blockers encountered</td><td>Notion daily log</td><td>Daily</td></tr>
+            <tr><td>Paying users count</td><td>Notion weekly scorecard</td><td>Weekly</td></tr>
+            <tr><td>MRR</td><td>Notion weekly scorecard</td><td>Weekly</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tracking-section">
+        <div class="tracking-header">Finance — Track Daily</div>
+        <table>
+          <thead><tr><th>What To Track</th><th>Where</th><th>When</th></tr></thead>
+          <tbody>
+            <tr><td>Money spent today and on what</td><td>Notebook then Notion</td><td>Daily</td></tr>
+            <tr><td>Any household money touched — amount</td><td>Notion daily log — honest entry</td><td>Daily</td></tr>
+            <tr><td>Savings account balance</td><td>Notion weekly scorecard</td><td>Weekly</td></tr>
+            <tr><td>Consulting revenue received</td><td>Notion weekly scorecard</td><td>Weekly</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tracking-section">
+        <div class="tracking-header">Health and Sleep — Track Daily</div>
+        <table>
+          <thead><tr><th>What To Track</th><th>Where</th><th>When</th></tr></thead>
+          <tbody>
+            <tr><td>Sleep hours last night</td><td>Notebook morning</td><td>Daily</td></tr>
+            <tr><td>Water consumed today (litres)</td><td>Notebook tally</td><td>Daily</td></tr>
+            <tr><td>Physical movement done today</td><td>Notebook</td><td>Daily</td></tr>
+            <tr><td>Energy level — morning, midday, evening (1 to 10)</td><td>Notebook</td><td>Daily</td></tr>
+            <tr><td>Doom scrolling — yes or no, how long</td><td>Notebook — honest</td><td>Daily</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tracking-section">
+        <div class="tracking-header">A Levels — Track Daily</div>
+        <table>
+          <thead><tr><th>What To Track</th><th>Where</th><th>When</th></tr></thead>
+          <tbody>
+            <tr><td>Subject studied today</td><td>Notebook</td><td>Daily</td></tr>
+            <tr><td>Topics covered</td><td>Notebook</td><td>Daily</td></tr>
+            <tr><td>Past papers attempted</td><td>Notion daily log</td><td>Weekly</td></tr>
+            <tr><td>Hours studied this week total</td><td>Notion weekly scorecard</td><td>Weekly</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>The Notion Night Log — 10 Minutes Every Night</h3>
+      <div class="code-block">Date:
+Sleep last night (hours):
+Energy today — morning / midday / evening (1-10):
+Outreach DMs sent today:
+Comments left on LinkedIn today:
+Post published today (yes/no — topic if yes):
+Lume work done (yes/no — what):
+A Level study done (yes/no — subject and minutes):
+Money spent today (amount and what):
+Water consumed (litres):
+Physical movement (yes/no — what):
+Doom scrolling (yes/no — how long):
+One win from today:
+One thing I avoided:
+First task tomorrow morning:</div>
+    </div>
+
+    <!-- A LEVELS -->
+    <div class="section" id="alevels">
+      <div class="section-header">
+        <span class="section-num">Section 07</span>
+        <h2 class="section-title">A Levels and University Roadmap</h2>
+      </div>
+
+      <div class="callout sage">
+        <div class="callout-label">The Real Story of 2024</div>
+        <p>You sat CS, Physics, and Economics in 2024 and got ungraded in all three. You had completed A1 syllabus for all four subjects. You knew the material. Mental health collapsed during the exam period. Your results did not reflect your preparation. That is not an academic failure. It is a mental health failure during an academic event. You have never failed something you were properly prepared for under stable conditions.</p>
+      </div>
+
+      <h3>Registration Timeline</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Date</th><th>Action</th><th>Cost</th></tr></thead>
+          <tbody>
+            <tr><td>October 2026</td><td>Register as private candidate at CIE centre in Lahore</td><td>PKR 80,000 to 100,000</td></tr>
+            <tr><td>February 2027</td><td>Confirm final registration deadline with centre</td><td>—</td></tr>
+            <tr><td>May/June 2027</td><td>Sit all four A Level papers — target A or A* in every subject</td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Study System — 45 Minutes Per Day</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Day</th><th>Subject</th></tr></thead>
+          <tbody>
+            <tr><td>Monday</td><td>Computer Science</td></tr>
+            <tr><td>Tuesday</td><td>Mathematics</td></tr>
+            <tr><td>Wednesday</td><td>Physics</td></tr>
+            <tr><td>Thursday</td><td>Economics</td></tr>
+            <tr><td>Friday</td><td>Computer Science</td></tr>
+            <tr><td>Saturday</td><td>Mathematics and Physics mixed</td></tr>
+            <tr><td>Sunday</td><td>Past papers and weekly review</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>45 minutes daily for 14 months equals 637 hours. With A1 foundation complete across all four subjects, this is sufficient to reach A and A* grades. Use Cambridge past papers 2020 to 2024. Free online. Begin IELTS preparation now. Target 7.0+. Sit no later than September 2026.</p>
+    </div>
+
+    <!-- MENTAL -->
+    <div class="section" id="mental">
+      <div class="section-header">
+        <span class="section-num">Section 08</span>
+        <h2 class="section-title">Mental and Emotional Operating System</h2>
+      </div>
+
+      <div class="callout">
+        <div class="callout-label">This Section Is Not Optional</div>
+        <p>It is as operational as the financial roadmap. Everything else in this manual works better when you are not carrying this weight alone.</p>
+      </div>
+
+      <h3>The Unfinished Business With The Accident</h3>
+      <p>You were exceptional physically. You ran. You excelled at football. You were in peak condition and that was a core part of your identity. The accident broke your leg and your momentum and your sense of who you were. You were laid on a bed for months when you had been moving fast and excelling.</p>
+      <p>You have buried this rather than processed it. The cost of keeping that door closed shows up every day — in the anxiety loops at night, in the doom scrolling, in the "I am a fucking failure" thought, in the paralysis before outreach, in the scattered energy across too many things at once.</p>
+      <p>Write about what you lost. Not your business. Not your grades. The physical version of yourself who was exceptional. Write what he could do. Write what the accident took. Close the notebook. That is how you stop paying the suppression tax every day.</p>
+      <p><strong>The action:</strong> Find a therapist or counsellor in Lahore. Search oladoc.com or shifa4u.com. Look for someone with experience in trauma and performance anxiety. PKR 2,000 to 5,000 per session. Start once or twice a month. Put it in the monthly budget under business tools — because it is the highest leverage PKR 3,000 you will spend.</p>
+
+      <h3>On The Loudest Thought In Your Head</h3>
+      <p>When "I am a fucking failure" arrives — do not argue with it in your head. Write it down. Then write three specific pieces of evidence that contradict it. Every time. Over weeks it loses its automatic authority.</p>
+
+      <h3>Daily Mental Health Minimum</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Practice</th><th>When</th><th>Why It Matters</th></tr></thead>
+          <tbody>
+            <tr><td>500ml water immediately on waking</td><td>Every morning before anything else</td><td>Dehydration under 1 litre/day during Ramadan is directly causing your midday energy crashes</td></tr>
+            <tr><td>No phone for first 30 minutes after waking</td><td>Every morning</td><td>Sets the tone before anxiety triggers activate. Phone is the first anxiety amplifier.</td></tr>
+            <tr><td>30 to 45 minutes physical movement</td><td>Every day without exception</td><td>You were someone who ran seriously. That physical identity is still yours. Reclaim it gradually. Start with walking. Add running as leg allows.</td></tr>
+            <tr><td>When anxiety spikes — rooftop walk, not phone</td><td>Whenever anxiety peaks during the day</td><td>Physiological anxiety discharge. 10 minutes of movement lowers cortisol measurably. The phone extends the anxiety loop. The walk breaks it.</td></tr>
+            <tr><td>Phone on the other side of the room at sleep time</td><td>Every night from 10:30 PM</td><td>The doom scrolling that drives your 4 to 5 hour nights starts with the phone being within reach when overthinking begins. Remove the tool. The behaviour cannot follow.</td></tr>
+            <tr><td>Journaling 10 minutes before sleep</td><td>Every night</td><td>Discharges the overthinking loop that starts doom scrolling. Write what is in your head, one win, one avoidance, first task tomorrow. Close the notebook. The loop has somewhere to go now.</td></tr>
+            <tr><td>2 to 3 litres water daily after Ramadan</td><td>Throughout the day</td><td>You are severely underhydrated. Dehydration causes brain fog, low energy, and worsens anxiety. Fix this immediately after Ramadan ends.</td></tr>
+            <tr><td>One honest weekly self check-in</td><td>Every Sunday</td><td>Are you okay. What is sitting heavy. What are you avoiding. Write it. Not in Notion. In the notebook. Private and honest.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>A Direct Word</h3>
+      <div class="ted-talk">
+        <div class="ted-talk-label">Read This When You Need It</div>
+        <p>You already know what you are capable of. The problem is not that you do not know how to do this. You have done it before. You grew a LinkedIn to 10,000. You landed clients. You built products. You consulted for real brands with real results. You know the work.</p>
+        <p>The problem is that every time you get momentum, something happens — real, external, genuinely bad things happen — and you treat them as evidence that you were not meant for this. As if the accident was a verdict. As if the hack was confirmation. As if the AS results sealed something permanent about who you are.</p>
+        <p>They did not.</p>
+        <p>The accident did not choose you because you were going to fail. It was random. It was brutal. And it cost you something real. But the person who ran like a horse and excelled at football was not a fluke. That was you. That level of commitment and physical discipline and competitive excellence — that is still your character. It did not leave when the plaster came off. It went quiet. There is a difference.</p>
+        <p>The LinkedIn hack did not happen because the algorithm punishes people who are not supposed to make it. It happened because someone ran a phishing script and you were in the wrong place. Thousands of accounts get hacked. Yours happened to be one with 10,000 followers. That is not a message. That is a Tuesday.</p>
+        <p>The AS results were not a verdict on your intelligence or your ceiling. You were not okay. The exams came anyway. You sat them in a state that would have broken most people's scores regardless of how much they knew. You completed A1 for all four subjects including Mathematics — which you did not even sit in 2024. That is not the behaviour of someone who cannot do this.</p>
+        <p>You are not behind. You are rebuilding. Those are different things. Behind implies there is a race you are losing. Rebuilding implies you are constructing something that will stand. You are in your mid-20s, living rent-free, no dependents, remote job, real consulting experience, a product in progress, and a vision specific enough to be real. Most people your age with half your ambition are still figuring out what they want. You know exactly what you want.</p>
+        <p>The version of you that wakes at Fajr, goes for a run, does deep work, plays football in the evening, builds products on weekends in different countries, and has his mother living abroad for a year — that person is not a fantasy. That is a specific outcome of specific daily decisions. <strong>The decisions start today.</strong></p>
+        <p>Not when the job gets better. Not when the LinkedIn grows. Not when you feel more ready. Today. You have built before. You will build again. The only question is whether you stop walking away at the distribution stage.</p>
+        <p>Show up. Send the messages. Post the content. Fix the UI. Put Lume in front of people. Do the 45 minutes of study. Transfer the PKR 15,000 on salary day. That is the whole plan. Everything else is details.</p>
+      </div>
+    </div>
+
+    <!-- VISION -->
+    <div class="section" id="vision">
+      <div class="section-header">
+        <span class="section-num">Section 09</span>
+        <h2 class="section-title">Long Term Vision</h2>
+      </div>
+
+      <div class="callout gold">
+        <div class="callout-label">The Vision</div>
+        <p>Financial freedom. A PKR 10 million car. A PKR 40 to 50 million house. A degree abroad. Your mother living in a different country for a year. Waking at Fajr, running, playing football, deep work, building products across countries on weekends. PKR 20 million/month. That is your life design. Every decision in this manual points toward it.</p>
+      </div>
+
+      <div class="phases" style="margin-top:32px;">
+        <div class="phase">
+          <div class="phase-dot ph1">1</div>
+          <div class="phase-body">
+            <div class="phase-date">March to August 2026</div>
+            <div class="phase-title">Stabilise and Ignite</div>
+            <p>Close 3 consulting clients at $600 to $900/month. Save PKR 200,000. Lock budget today. 10 outreach messages per day. 5 posts per week. 10 comments per day. Fix Lume UI. 45 minutes study daily. Set up Notion tracking this week.</p>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-dot ph2">2</div>
+          <div class="phase-body">
+            <div class="phase-date">September 2026 to March 2027</div>
+            <div class="phase-title">Build and Systematise</div>
+            <p>Replace job income fully. Hit PKR 300,000/month from consulting. Leave job when consulting sustains PKR 100,000/month for 2 consecutive months. Lume at 50 paying users. LinkedIn to 5,000 followers. CIE registration October 2026. IELTS by September 2026. University applications submitted.</p>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-dot ph3">3</div>
+          <div class="phase-body">
+            <div class="phase-date">April to September 2027</div>
+            <div class="phase-title">Expand and Relocate</div>
+            <p>Sit A Levels May/June 2027. Target AAA or better. Receive university offers. Apply for student visa. Consulting with first junior hire. Lume at 100 users. Second consulting vertical added. Relocate by September 2027.</p>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-dot ph4">4</div>
+          <div class="phase-body">
+            <div class="phase-date">2027 to 2031</div>
+            <div class="phase-title">University and Compounding</div>
+            <p>CS or Software Engineering full time. Consulting running remotely with team. Lume toward 500 users at $9,000/month MRR. Add creator monetization, ecommerce, AI content verticals. Car purchased 2029 to 2030. House by 2030 to 2032. Mother visits and lives abroad. Football and running fully reclaimed.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUMMARY -->
+    <div class="section" id="summary">
+      <div class="section-header">
+        <span class="section-num">Summary</span>
+        <h2 class="section-title">One Page — Read Every Morning</h2>
+      </div>
+
+      <div class="summary-card">
+        <h2>The Operating Manual — Condensed</h2>
+        <div class="summary-section">
+          <div class="summary-label">Where You Are</div>
+          <p>PKR 60,000/month, zero savings, zero clients, 130 LinkedIn followers, Lume MVP unshipped. One month into a job you hate. Rebuilding from a LinkedIn hack and a mental health collapse during AS Levels. You have done this before. You will do it again.</p>
+        </div>
+        <div class="summary-section">
+          <div class="summary-label">What You Are Doing In The Next 90 Days</div>
+          <p>Consulting outreach 10 messages per day. LinkedIn posting 5 days per week. LinkedIn commenting 10 posts per day. A Level study 45 minutes per day. Save PKR 15,000 on salary day. Fix Lume UI. Show Lume to 5 people. Log everything every night in Notion.</p>
+        </div>
+        <div class="summary-section">
+          <div class="summary-label">What You Are Not Doing</div>
+          <p>Doom scrolling after 10:30 PM. Spending household money. Sending cold outreach without warming first. Letting the follower count objection stop you from sending the message. Treating setbacks as verdicts.</p>
+        </div>
+        <div class="summary-section">
+          <div class="summary-label">What You Are Building Toward</div>
+          <p>A PKR 10 million car. A PKR 40 to 50 million house. A degree abroad. Your mother living in another country for a year. Waking at Fajr, running, playing football, building products across countries on weekends. That life is real and achievable from exactly where you are standing right now.</p>
+        </div>
+        <div class="big-question">
+          <p>The only question that matters each day</p>
+          <h3>Did I send my 10 outreach messages?</h3>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <span>Ahmad Farooq — Personal Operating Manual v2</span>
+    <span>Built March 2026 — Next Review June 2026</span>
+    <span>Confidential</span>
+  </div>
+
+</div>
+
+<script>
+  const sections = document.querySelectorAll('.section[id]');
+  const navItems = document.querySelectorAll('.nav-item');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 100) current = s.id; });
+    navItems.forEach(n => {
+      n.classList.remove('active');
+      if (n.getAttribute('href') === '#' + current) n.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>
